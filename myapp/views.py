@@ -4,11 +4,22 @@ from django.views.generic import CreateView,View,TemplateView,UpdateView,ListVie
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.db.models import Q
+from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate,login,logout
 
 
 from myapp.forms import SignUpForm,SignInForm,ProfileEditForm,PostForm,CoverPicChangeForm,ProfilePicChangeForm
 from myapp.models import UserProfile,Posts,Comments
+
+
+
+def signin_reqired(fn):
+    def wrapper(request,*args,**kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request,"login plzz!!!!")
+            return redirect("signin")
+        return fn(request,*args,**kwargs)
+    return wrapper
 
 class SignUpView(CreateView):
     model=User
@@ -55,12 +66,16 @@ class IndexView(CreateView,ListView):
         form.instance.user=self.request.user
         return super().form_valid(form)
     
+
+@method_decorator(signin_reqired)    
 def add_like_view(request,*args,**kwargs):
     id=kwargs.get("pk")
     post_obj=Posts.objects.get(id=id)
     post_obj.liked_by.add(request.user)
     return redirect("index")
 
+
+@method_decorator(signin_reqired)
 def add_comment_view(request,*args,**kwargs):
     id=kwargs.get("pk")
     post_obj=Posts.objects.get(id=id)
@@ -68,6 +83,8 @@ def add_comment_view(request,*args,**kwargs):
     user=request.user
     Comments.objects.create(user=request.user,post=post_obj,comment_text=comment)
     return redirect("index")
+
+
 
 def comment_remove_View(request,*args,**kwargs):
     id=kwargs.get("pk")
@@ -148,7 +165,11 @@ def unfollowView(request,*args,**kwargs):
     return redirect("profile-list")
 
 
-
+def PostDeleteView(request,*args,**kwargs):
+    post_id=kwargs.get("pk")
+    post_obj=Posts.objects.get(id=post_id)
+    post_obj.delete()
+    return redirect("index")
   
 
 

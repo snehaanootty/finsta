@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from random import sample
 
 # Create your models here.
 class UserProfile(models.Model):
@@ -21,6 +22,9 @@ class UserProfile(models.Model):
         all_profiles=UserProfile.objects.all().exclude(user=self.user)
         following_profiles=self.following.all()
         suggessions=set(all_profiles) - set(following_profiles)
+
+        if len(suggessions)>2:
+            return sample(list(suggessions),2)
         return suggessions    
     
 class Posts(models.Model):

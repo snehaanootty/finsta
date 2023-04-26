@@ -27,6 +27,7 @@ urlpatterns = [
     path("profiles/<int:pk>/change/",views.ProfileEditView.as_view(),name="profile-edit"),
     path("posts/<int:pk>/like/",views.add_like_view, name="addlike"),
     path("posts/<int:pk>/comment/add/",views.add_comment_view,name="addcomment"),
+    path("posts/<int:pk>/delete/",views.PostDeleteView,name="post-delete"),
     path("comments/<int:pk>/remove/",views.comment_remove_View,name="removecomment"),
     path("profile/<int:pk>/details/",views.Profile_detail_View.as_view(),name="profiledetail"),
     path("profile/<int:pk>/coverpic/change/",views.Update_Coverpic_View,name="coverpic-change"),

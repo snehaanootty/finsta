@@ -91,12 +91,59 @@
         <div class="row d-flex justify-content-evenly">
             <div class="col-4 text-center mt-3 swich  "><a class="btn fs-5" href=""><span><i
                             class="fa-solid fa-book"></i></span> Time line</a></div>
-            <div class="col-4 text-center mt-3 swich "><a class="btn fs-5" href=""><span><i
-                            class="fa-solid fa-users"></i></span>Followers {{profile.followed_by.all | length}}</a>
+            <div class="col-4 text-center mt-3 swich ">
+
+                <button class="btn fs-5" data-bs-toggle="modal" data-bs-target="#exampleModalfws" href=""  ><span>
+                    <i class="fa-solid fa-users"></i></span>Followers {{profile.followed_by.all | length}}</button>
                         
                         </div>
-            <div class="col-4 text-center mt-3  "><a class="btn fs-5" href=""><span><i
-                            class="fa-solid fa-user"></i></span>Following {{profile.following.all | length}}</a></div>
+                        <div class="modal fade" id="exampleModalfws" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel">followers</h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  {%for prof in request.user.profile.followeed_by.all%}
+                                  {%if prof.profile_pic%}
+                                         <img src="{{prof.profile_pic.url}}" width="50px" alt="">
+                                      {%endif%}
+                                  {{prof}}
+                                  {%endfor%}
+                                </div>
+                                <!-- <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  <button type="button" class="btn btn-primary">Save changes</button>
+                                </div> -->
+                              </div>
+                            </div>
+                          </div>
+            <div class="col-4 text-center mt-3  "><button class="btn fs-5" data-bs-toggle="modal" data-bs-target="#exampleModalfollowing" href=""><span><i
+                            class="fa-solid fa-user"></i></span>Following {{profile.following.all | length}}</button></div>
+                            <div class="modal fade" id="exampleModalfollowing" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalLabel">following</h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      {%for profi in request.user.profile.following.all%}
+
+                                      {%if profi.profile_pic%}
+                                         <img src="{{profi.profile_pic.url}}" width="50px" alt="">
+                                      {%endif%}
+                                      {{profi}}
+                                      {%endfor%}
+                                    </div>
+                                    <!-- <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                      <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div> -->
+                                  </div>
+                                </div>
+                              </div>
         </div>
     </div>
     <div class="container-fluid ">
