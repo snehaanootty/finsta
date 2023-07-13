@@ -67,7 +67,7 @@ class IndexView(CreateView,ListView):
         return super().form_valid(form)
     
 
-@method_decorator(signin_reqired)    
+# @method_decorator(signin_reqired)    
 def add_like_view(request,*args,**kwargs):
     id=kwargs.get("pk")
     post_obj=Posts.objects.get(id=id)
@@ -75,7 +75,7 @@ def add_like_view(request,*args,**kwargs):
     return redirect("index")
 
 
-@method_decorator(signin_reqired)
+# @method_decorator(signin_reqired)
 def add_comment_view(request,*args,**kwargs):
     id=kwargs.get("pk")
     post_obj=Posts.objects.get(id=id)
